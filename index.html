@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¡Feliz Cumpleaños! 🎉 | Freddy Fazbear's Pizza Surprise</title>
+  <meta name="description" content="Una sorpresa interactiva de cumpleaños muy especial con temática de Five Nights at Freddy's.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Fredoka:wght@400;600;700;800&family=Orbitron:wght@600;800;900&family=VT323&display=swap" rel="stylesheet">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Ambient Visual Layers -->
+  <div class="bg-ambient" id="bgAmbient"></div>
+  <div class="fazbear-checker-border top"></div>
+  <div class="fazbear-checker-border bottom"></div>
+  <div class="crt-overlay"></div>
+  
+  <!-- Particle & Confetti Canvases -->
+  <canvas id="noiseCanvas"></canvas>
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- Background Music (The Living Tombstone - FNAF 1) -->
+  <audio id="bgMusic" src="assets/audio/fnaf_tlt.mp3" preload="auto" loop></audio>
+
+  <!-- MAIN APP CONTAINER -->
+  <main class="app-container">
+
+    <!-- ==========================================================
+         PANTALLA 1: INICIO "¿QUIERES VER TU SORPRESA?"
+         ========================================================== -->
+    <section id="intro-screen" class="screen active" aria-label="Pantalla de Inicio">
+      <div class="intro-card">
+        <div class="fnaf-badge">
+          <span>🍕 Fazbear Entertainment Inc.</span>
+        </div>
+
+        <h1 class="intro-title">
+          ¿Quieres ver tu <span class="highlight">sorpresa?</span>
+        </h1>
+
+        <p class="intro-subtitle">
+          Tienes un pase VIP exclusivo para la fiesta de cumpleaños más divertida y animatrónica del año.
+        </p>
+
+        <!-- Mini Avatars Preview -->
+        <div class="intro-mascots-preview">
+          <div class="mini-mascot-avatar freddy" title="Freddy Fazbear">
+            <img src="assets/images/freddy.jpg" alt="Freddy Plush">
+          </div>
+          <div class="mini-mascot-avatar bonnie" title="Bonnie the Bunny">
+            <img src="assets/images/bonnie.jpg" alt="Bonnie Plush">
+          </div>
+          <div class="mini-mascot-avatar foxy" title="Foxy the Pirate Fox">
+            <img src="assets/images/foxy.jpg" alt="Foxy Plush">
+          </div>
+        </div>
+
+        <!-- Start Button -->
+        <button id="btnStartExperience" class="btn-fazbear-main" type="button">
+          <span>¡SÍ, QUIERO VERLA! 🎁</span>
+        </button>
+
+        <p class="intro-hint">🔊 Activa el sonido para la mejor experiencia</p>
+      </div>
+    </section>
+
+
+    <!-- ==========================================================
+         PANTALLA 2: CONTADOR DE 3 SEGUNDOS
+         ========================================================== -->
+    <section id="countdown-screen" class="screen" aria-label="Cuenta Regresiva">
+      <div class="countdown-box">
+        <div class="camera-cam-tag">
+          <span class="rec-dot"></span>
+          <span>CAM 01 // FAZBEAR PARTY ROOM</span>
+        </div>
+
+        <div id="countdownNumber" class="countdown-number">3</div>
+
+        <p id="countdownLabel" class="countdown-text">Iniciando el show de cumpleaños...</p>
+      </div>
+    </section>
+
+
+    <!-- ==========================================================
+         PANTALLA 3: SORPRESA PRINCIPAL & ELECCIÓN DE PELUCHES
+         ========================================================== -->
+    <section id="surprise-screen" class="screen" aria-label="Sorpresa Principal">
+      <div class="surprise-content">
+
+        <!-- Banner de Cumpleaños -->
+        <header class="fnaf-birthday-header">
+          <div class="stage-sign">
+            <div class="stage-sign-decor">★ FAZBEAR BIRTHDAY STAGE ★</div>
+            <h1 class="main-birthday-title">¡FELIZ CUMPLEAÑOS! 🎂</h1>
+            <p class="main-birthday-subtitle">¡Bienvenida a tu fiesta especial! Los animatrónicos tienen regalos para ti</p>
+          </div>
+        </header>
+
+        <!-- Reproductor de Música The Living Tombstone -->
+        <div class="fazbear-music-player player-playing" id="musicPlayerBar">
+          <div class="player-left">
+            <span class="cassette-icon">📼</span>
+            <div class="track-info">
+              <span class="track-title">Five Nights at Freddy's 1</span>
+              <span class="track-artist">The Living Tombstone</span>
+            </div>
+            <!-- Dynamic Equalizer Visualizer -->
+            <div class="audio-visualizer" id="audioVisualizer">
+              <div class="vis-bar"></div>
+              <div class="vis-bar"></div>
+              <div class="vis-bar"></div>
+              <div class="vis-bar"></div>
+              <div class="vis-bar"></div>
+              <div class="vis-bar"></div>
+            </div>
+          </div>
+
+          <div class="player-controls">
+            <button id="btnLoopToggle" class="loop-mode-btn" title="Alternar modo de repetición">
+              🔁 Modo: Completo
+            </button>
+
+            <button id="btnPlayPause" class="player-btn" title="Pausar / Reproducir">
+              <span id="playPauseIcon">⏸️</span>
+            </button>
+
+            <div class="volume-slider-wrap">
+              <span>🔊</span>
+              <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.05" value="0.75" title="Volumen">
+            </div>
+          </div>
+        </div>
+
+        <!-- Zona Interactiva: Pastel con Velas & Mini Acciones -->
+        <div class="fazbear-interactive-hub">
+          <!-- Tarjeta del Pastel Interactivo -->
+          <div class="interactive-cake-card">
+            <div class="cake-info">
+              <h3>🎂 Sopla tus Velas</h3>
+              <p id="candleInstruction">Haz clic en cada vela para apagarlas y pedir un deseo</p>
+            </div>
+            <div class="cake-candles-container" id="candlesContainer">
+              <div class="interactive-candle" data-candle="1" title="Apagar vela">
+                <div class="flame"></div>
+                <div class="candle-stick"></div>
+              </div>
+              <div class="interactive-candle" data-candle="2" title="Apagar vela">
+                <div class="flame"></div>
+                <div class="candle-stick"></div>
+              </div>
+              <div class="interactive-candle" data-candle="3" title="Apagar vela">
+                <div class="flame"></div>
+                <div class="candle-stick"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Botones de Efectos Divertidos -->
+          <div class="easter-actions">
+            <button id="btnHonkNose" class="btn-fun-action honk" type="button">
+              🎺 Nariz de Freddy (Honk!)
+            </button>
+            <button id="btn6AM" class="btn-fun-action six-am" type="button">
+              ⏰ ¡6:00 AM Victoria!
+            </button>
+            <button id="btnToggleLights" class="btn-fun-action" type="button">
+              💡 Luces Pizzeria
+            </button>
+            <button id="btnMoreConfetti" class="btn-fun-action" type="button">
+              🎊 ¡Más Confeti!
+            </button>
+          </div>
+        </div>
+
+        <!-- ==========================================================
+             SELECCIÓN DE LOS 3 PELUCHES DE FNAF
+             ========================================================== -->
+        <section class="plushies-section" id="plushiesStage">
+          <div class="section-headline">
+            <h2 class="section-title">🧸 ELIGE TU PELUCHE DE LA SUERTE 🧸</h2>
+            <p class="section-subtitle">Toca a Freddy, Bonnie o Foxy para desbloquear su mensaje y sorpresa interactiva</p>
+          </div>
+
+          <div class="plushies-grid">
+
+            <!-- ==============================================
+                 PELUCHE 1: FREDDY FAZBEAR
+                 ============================================== -->
+            <article class="plushie-card freddy" data-plush="freddy" id="cardFreddy">
+              <div class="plushie-role-badge">Líder de la Banda</div>
+              <div class="plushie-img-wrap">
+                <img src="assets/images/freddy.jpg" alt="Peluche Freddy Fazbear de Cumpleaños" class="plushie-img">
+              </div>
+              <h3 class="plushie-name">Freddy Fazbear</h3>
+              <p class="plushie-desc">
+                El anfitrión estrella de la pizzería con su micrófono dorado y sombrero de fiesta. Tiene un mensaje de honor para la cumpleañera.
+              </p>
+              <button class="btn-select-plushie" type="button">
+                <span>Abrir Mensaje de Freddy ✨</span>
+              </button>
+            </article>
+
+            <!-- ==============================================
+                 PELUCHE 2: BONNIE THE BUNNY
+                 ============================================== -->
+            <article class="plushie-card bonnie" data-plush="bonnie" id="cardBonnie">
+              <div class="plushie-role-badge">Estrella de Rock</div>
+              <div class="plushie-img-wrap">
+                <img src="assets/images/bonnie.jpg" alt="Peluche Bonnie the Bunny de Cumpleaños" class="plushie-img">
+              </div>
+              <h3 class="plushie-name">Bonnie the Bunny</h3>
+              <p class="plushie-desc">
+                El conejito guitarrista más genial con su guitarra roja. ¡Preparó un solo musical y una dedicatoria súper dulce para ti!
+              </p>
+              <button class="btn-select-plushie" type="button">
+                <span>Abrir Mensaje de Bonnie 🎸</span>
+              </button>
+            </article>
+
+            <!-- ==============================================
+                 PELUCHE 3: FOXY THE PIRATE FOX
+                 ============================================== -->
+            <article class="plushie-card foxy" data-plush="foxy" id="cardFoxy">
+              <div class="plushie-role-badge">Corsario de Pirate Cove</div>
+              <div class="plushie-img-wrap">
+                <img src="assets/images/foxy.jpg" alt="Peluche Foxy the Pirate Fox de Cumpleaños" class="plushie-img">
+              </div>
+              <h3 class="plushie-name">Foxy the Pirate</h3>
+              <p class="plushie-desc">
+                ¡Ahoy! El zorro pirata más veloz y querido salió de su cortina con un cofre del tesoro cargado de buenos deseos y regalos.
+              </p>
+              <button class="btn-select-plushie" type="button">
+                <span>Abrir Mensaje de Foxy 🏴‍☠️</span>
+              </button>
+            </article>
+
+          </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="fnaf-footer">
+          <p>🎈 Creado con mucho cariño para la mejor cumpleañera | Freddy Fazbear's Pizzeria Birthday Celebration 🍕</p>
+          <p style="margin-top: 5px; font-size: 0.8rem; color: #666;">Canción: "Five Nights at Freddy's" por The Living Tombstone</p>
+        </footer>
+
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ==========================================================
+       MODAL DE DETALLE DEL PELUCHE (MENSAJES Y REGALOS)
+       ========================================================== -->
+  <div class="modal-backdrop" id="plushieModal" aria-hidden="true">
+    <div class="plushie-modal-card" id="modalCard">
+      <button class="modal-close-btn" id="modalCloseBtn" aria-label="Cerrar modal">&times;</button>
+
+      <!-- Cabecera del Peluche -->
+      <div class="modal-header-hero">
+        <div class="modal-plush-avatar">
+          <img id="modalAvatarImg" src="assets/images/freddy.jpg" alt="Plush Avatar">
+        </div>
+        <div class="modal-header-texts">
+          <span class="modal-char-tag" id="modalCharTag">★ FAZBEAR ENTERTAINMENT SPECIAL ★</span>
+          <h2 id="modalCharName">Freddy Fazbear</h2>
+          <p id="modalCharSubtitle" style="color: var(--color-text-muted); font-size: 0.95rem;">Mensaje oficial del escenario principal</p>
+        </div>
+      </div>
+
+      <!-- Carta de Dedicatoria -->
+      <div class="birthday-dedication-box">
+        <div class="letter-badge">💌 Dedicatoria de Cumpleaños</div>
+        <div class="dedication-message-text" id="modalDedicationText">
+          <!-- El texto se inyecta dinámicamente o se puede editar -->
+        </div>
+      </div>
+
+      <!-- Zona Interactiva del Peluche -->
+      <div class="modal-interactive-zone">
+        <div class="interactive-zone-title" id="modalGiftTitle">🎁 Sorpresa Especial del Peluche</div>
+        <div class="modal-gift-box">
+          <button class="gift-icon-btn" id="btnOpenGift" type="button" title="¡Haz clic para abrir tu regalo!">
+            🎁
+          </button>
+          <div class="gift-status-text" id="modalGiftStatus">
+            ¡Haz clic en la caja de regalo para abrir tu sorpresa!
+          </div>
+        </div>
+      </div>
+
+      <!-- Acciones Inferiores -->
+      <div class="modal-footer-actions">
+        <button class="btn-modal-action secondary" id="btnEditMessage" type="button">
+          ✏️ Personalizar Mensaje
+        </button>
+        <button class="btn-modal-action primary" id="btnPlaySpecialSound" type="button">
+          ✨ Acción Especial
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==========================================================
+       MODAL RÁPIDO PARA EDITAR MENSAJE DESDE LA PÁGINA
+       ========================================================== -->
+  <div class="customizer-modal" id="customizerModal" aria-hidden="true">
+    <div class="customizer-card">
+      <h3 id="customizerTitle">Editar Mensaje</h3>
+      <p>Escribe la dedicatoria personalizada que quieras que diga este peluche:</p>
+      <textarea id="customizerText" class="customizer-textarea" placeholder="Escribe aquí tu mensaje de cumpleaños..."></textarea>
+      <div class="modal-footer-actions">
+        <button class="btn-modal-action secondary" id="btnCancelCustomizer" type="button">Cancelar</button>
+        <button class="btn-modal-action primary" id="btnSaveCustomizer" type="button">💾 Guardar Dedicatoria</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Interactive JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>

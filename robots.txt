@@ -1,6 +1,0 @@
-# robots.txt para https://carloscrisanto.vercel.app/
-User-agent: *
-Allow: /
-
-# Ubicación del Sitemap
-Sitemap: https://carloscrisanto.vercel.app/sitemap.xml
