@@ -15,7 +15,7 @@ const PLUSHIE_DATA = {
     memoryCaption: "¡Otro año más conociendote y soportandote JAJAJA, andaba de chill en la foto💛!",
     themeClass: "freddy",
     // EDITABLE: Mensaje predeterminado de Freddy
-    message: `¡Hola, cumpleañera estrella! 🎩✨\n\nEn nombre de toda la pizzería y de la banda de Freddy Fazbear, ¡te deseamos un cumpleaños increíble y lleno de magia!\n\nGracias por ser una persona tan especial, divertida y genial. Hoy el escenario principal brilla únicamente para ti. ¡Que todos tus sueños y deseos se hagan realidad en este nuevo año de vida! 🍕🎂🎉`,
+    message: `¡Hola, cumpleañera estrella nandi! 🎩✨\n\nEn nombre de carlos y de la banda de Freddy Fazbear, ¡te deseamos un cumpleaños increíble y lleno de magia!\n\nGracias por ser una persona tan especial, divertida y genial. Hoy el escenario principal brilla únicamente para ti. ¡Que todos tus sueños y deseos se hagan realidad en este nuevo año de vida! 🍕🎂🎉`,
     giftTitle: "Preciados Recuerdos & Pase Dorado",
     giftSecret: "📸 ¡Desbloqueaste tu foto de recuerdos con Freddy! Un momento especial guardado en el corazón de Fazbear. 💛",
     specialActionLabel: "🎶 Tocar Marcha de Freddy"
@@ -30,7 +30,7 @@ const PLUSHIE_DATA = {
     memoryCaption: "Tardes de relax, ese point onde siempre nos juntabamos pa comer lo era todo, comiamos jateabamos un toq y salia su UNO, Joder nunca lo olvidare. 💜🍃",
     themeClass: "bonnie",
     // EDITABLE: Mensaje predeterminado de Bonnie
-    message: `¡Hey, cumpleañera rockera! 🎸💜\n\n¡Espero que estés lista para rockear al máximo en tu día! Bonnie preparó los mejores acordes y melodías para celebrar tu vida.\n\nQue este año esté lleno de buena música, aventuras alegres y personas que te hagan sonreír cada día. ¡Nunca dejes de brillar como la estrella que eres! 🐰⚡🎵`,
+    message: `¡Hey, tu rockera, SI TU! 🎸💜\n\n¡Espero que estés lista para rockear al máximo en tu día! Bonnie preparó los mejores acordes(JAJA te gustara) y melodías para celebrar tu vida.\n\nEspero que consigas la guitarra que querias y me la prestes porfaaaa. ¡Pero recuerda nunca dejes de brillar como la estrella que eres! 🐰⚡🎵`,
     giftTitle: "Preciados Recuerdos & Solo de Guitarra",
     giftSecret: "📸 ¡Desbloqueaste tu foto de recuerdos con Bonnie! Una tarde inolvidable llena de ternura y paz. 💜",
     specialActionLabel: "🎸 Solo de Guitarra Rock"
@@ -45,7 +45,7 @@ const PLUSHIE_DATA = {
     memoryCaption: "Buaaa esto ci que me trae mas recuerdoc, creo q ati te gustava jugar de todo oe, UNO, ajedre, su real left ufff y ojo yo núnca perrdia solo ne dejaba ganar jeje. ❤️🏴‍☠️",
     themeClass: "foxy",
     // EDITABLE: Mensaje predeterminado de Foxy
-    message: `¡Ahoy, capitana de la fiesta! 🏴‍☠️❤️\n\nFoxy salió corriendo a toda velocidad desde Pirate Cove para ser el primero en traerte su cofre del tesoro.\n\nEn este cumpleaños, te deseo travesías llenas de alegría, salud, éxitos y momentos que atesores para siempre. ¡Eres la persona más valiente y genial de los 7 mares! 🦊⚔️💎`,
+    message: `¡Ahoy, capitana de la fiesta! 🏴‍☠️❤️\n\nFoxy salió corriendo a toda velocidad desde Pirate Cove para ser el primero en traerte su cofre del tesoro.\n\nEspero que tu pastel tmb sea de FNAF ufff q rico, bueno en fin happy birthday nandiiiii. Nunca pense que me toparía con una especial q tenga el mismo sentido de humor extraño q yo, aunq creo q sigo siendo más raro JAJA 🦊⚔️💎`,
     giftTitle: "Preciados Recuerdos & Cofre Pirata",
     giftSecret: "📸 ¡Desbloqueaste tu foto de recuerdos con Foxy! El verdadero tesoro son todas las risas que compartimos. ❤️",
     specialActionLabel: "⚓ Grito Pirata y Campanada"
@@ -241,9 +241,9 @@ class FNAFAudioEngine {
     }
   }
 
-  // Detener audios de acción especial al cambiar o cerrar
+  // Detener audios de acción especial y 6 AM al cambiar o cerrar
   stopSpecialAudios() {
-    ['audioFreddyBeatbox', 'audioBonnieRock', 'audioFoxyPirate'].forEach(id => {
+    ['audioFreddyBeatbox', 'audioBonnieRock', 'audioFoxyPirate', 'audio6AM'].forEach(id => {
       const el = document.getElementById(id);
       if (el) {
         el.pause();
@@ -252,116 +252,33 @@ class FNAFAudioEngine {
     });
   }
 
-  // Campana armónica metálica realista para el reloj de FNAF
-  playBellNote(freq, startTime, duration = 1.8, masterGainVal = 0.28) {
-    if (!this.ctx) return;
-    const partials = [
-      { ratio: 0.5, gain: 0.15, decay: duration * 1.2 },  // Hum
-      { ratio: 1.0, gain: 0.35, decay: duration },        // Fundamental / Prime
-      { ratio: 1.19, gain: 0.25, decay: duration * 0.8 }, // Tierce (minor 3rd)
-      { ratio: 1.50, gain: 0.20, decay: duration * 0.7 }, // Quint
-      { ratio: 2.00, gain: 0.28, decay: duration * 0.6 }, // Nominal / Octave
-      { ratio: 3.00, gain: 0.15, decay: duration * 0.4 }, // Superquint
-      { ratio: 4.15, gain: 0.08, decay: duration * 0.25 } // Strike
-    ];
-
-    partials.forEach(p => {
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq * p.ratio, startTime);
-
-      gain.gain.setValueAtTime(0, startTime);
-      gain.gain.linearRampToValueAtTime(p.gain * masterGainVal, startTime + 0.008);
-      gain.gain.exponentialRampToValueAtTime(0.0001, startTime + p.decay);
-
-      osc.connect(gain);
-      gain.connect(this.ctx.destination);
-
-      osc.start(startTime);
-      osc.stop(startTime + p.decay);
-    });
-  }
-
-  // Sonido auténtico y legendario de las 6:00 AM de FNAF 1 (Westminster Chimes + Cheering)
+  // Sonido auténtico y legendario de las 6:00 AM de FNAF 1 (assets/audio/6am-fnaf1.mp3)
   play6AMChime() {
-    this.init();
-    const t = this.ctx.currentTime;
-    
-    // Melodía del reloj de péndulo de FNAF (Westminster Quarters)
-    const melody = [
-      { f: 659.25, time: 0.00 }, // E5
-      { f: 523.25, time: 0.45 }, // C5
-      { f: 587.33, time: 0.90 }, // D5
-      { f: 392.00, time: 1.35 }, // G4
-      
-      { f: 392.00, time: 2.05 }, // G4
-      { f: 587.33, time: 2.50 }, // D5
-      { f: 659.25, time: 2.95 }, // E5
-      { f: 523.25, time: 3.40 }  // C5
-    ];
-
-    melody.forEach(n => {
-      this.playBellNote(n.f, t + n.time, 1.8, 0.3);
-    });
-
-    // Grito de victoria y fanfarria al completar las 6 AM
-    this.playCelebrationCheer(t + 4.1);
-  }
-
-  // Fanfarria y ovación de cumpleaños / victoria
-  playCelebrationCheer(time) {
-    if (!this.ctx) return;
-    const fanfare = [
-      { f: 523.25, offset: 0.0, d: 0.25 },
-      { f: 659.25, offset: 0.15, d: 0.25 },
-      { f: 783.99, offset: 0.30, d: 0.25 },
-      { f: 1046.50, offset: 0.45, d: 0.8 }
-    ];
-
-    fanfare.forEach(note => {
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(note.f, time + note.offset);
-
-      gain.gain.setValueAtTime(0, time + note.offset);
-      gain.gain.linearRampToValueAtTime(0.25, time + note.offset + 0.02);
-      gain.gain.exponentialRampToValueAtTime(0.001, time + note.offset + note.d);
-
-      osc.connect(gain);
-      gain.connect(this.ctx.destination);
-
-      osc.start(time + note.offset);
-      osc.stop(time + note.offset + note.d);
-    });
-
-    // Ruido filtrado que simula la emoción y aplausos
-    const bufferSize = this.ctx.sampleRate * 1.5;
-    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
-    const data = buffer.getChannelData(0);
-    for (let i = 0; i < bufferSize; i++) {
-      data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (this.ctx.sampleRate * 0.7));
+    this.stopSpecialAudios();
+    try {
+      const audioEl = document.getElementById('audio6AM');
+      if (audioEl) {
+        audioEl.currentTime = 0;
+        const playPromise = audioEl.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            const fallback = new Audio('assets/audio/6am-fnaf1.mp3');
+            fallback.play().catch(() => {
+              const fallback2 = new Audio('assets/6am-fnaf1.mp3');
+              fallback2.play().catch(() => {});
+            });
+          });
+        }
+      } else {
+        const sound = new Audio('assets/audio/6am-fnaf1.mp3');
+        sound.play().catch(() => {
+          const fallback2 = new Audio('assets/6am-fnaf1.mp3');
+          fallback2.play().catch(() => {});
+        });
+      }
+    } catch (e) {
+      console.log('Error playing 6AM sound:', e);
     }
-    const noise = this.ctx.createBufferSource();
-    noise.buffer = buffer;
-    const filter = this.ctx.createBiquadFilter();
-    filter.type = 'bandpass';
-    filter.frequency.setValueAtTime(800, time);
-    filter.frequency.linearRampToValueAtTime(1400, time + 0.4);
-    filter.frequency.linearRampToValueAtTime(600, time + 1.2);
-    filter.Q.value = 1.2;
-
-    const cheerGain = this.ctx.createGain();
-    cheerGain.gain.setValueAtTime(0, time);
-    cheerGain.gain.linearRampToValueAtTime(0.2, time + 0.1);
-    cheerGain.gain.exponentialRampToValueAtTime(0.001, time + 1.4);
-
-    noise.connect(filter);
-    filter.connect(cheerGain);
-    cheerGain.connect(this.ctx.destination);
-
-    noise.start(time);
   }
 }
 
@@ -760,7 +677,13 @@ document.addEventListener('DOMContentLoaded', () => {
     trigger6AMCelebration();
   });
 
+  let fnaf6amTimer = null;
+  let fnaf6amClockTimer = null;
+
   function trigger6AMCelebration() {
+    if (fnaf6amTimer) clearTimeout(fnaf6amTimer);
+    if (fnaf6amClockTimer) clearTimeout(fnaf6amClockTimer);
+
     sfx.play6AMChime();
     
     // Mostrar overlay de 6:00 AM estilo FNAF
@@ -773,21 +696,23 @@ document.addEventListener('DOMContentLoaded', () => {
     confetti.burst(window.innerWidth * 0.2, window.innerHeight * 0.5, 60);
     confetti.burst(window.innerWidth * 0.8, window.innerHeight * 0.5, 60);
 
-    // Flip del reloj a las 6:00 AM
-    setTimeout(() => {
+    // Flip del reloj a las 6:00 AM tras sonar los primeros repiques
+    fnaf6amClockTimer = setTimeout(() => {
       fnaf6amClock.innerHTML = '6:00 <span class="ampm">AM</span>';
       confetti.burst(window.innerWidth / 2, window.innerHeight / 2, 120);
-    }, 1500);
+    }, 1600);
 
-    // Auto-cierre después de 5.5 segundos
-    setTimeout(() => {
+    // Auto-cierre después de reproducir la celebración (7.5s)
+    fnaf6amTimer = setTimeout(() => {
       fnaf6amOverlay.classList.remove('active');
       fnaf6amOverlay.setAttribute('aria-hidden', 'true');
-    }, 5500);
+    }, 7500);
   }
 
   // Cerrar overlay de 6 AM al hacer clic
   fnaf6amOverlay.addEventListener('click', () => {
+    if (fnaf6amTimer) clearTimeout(fnaf6amTimer);
+    if (fnaf6amClockTimer) clearTimeout(fnaf6amClockTimer);
     fnaf6amOverlay.classList.remove('active');
     fnaf6amOverlay.setAttribute('aria-hidden', 'true');
   });
@@ -884,6 +809,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Cerrar Modal del Peluche
   function closePlushieModal() {
+    sfx.stopSpecialAudios();
     sfx.playPop();
     plushieModal.classList.remove('active');
     plushieModal.setAttribute('aria-hidden', 'true');
@@ -905,7 +831,6 @@ document.addEventListener('DOMContentLoaded', () => {
     modalGiftBoxClosed.style.display = 'none';
     modalMemoryReveal.style.display = 'flex';
     
-    sfx.play6AMChime();
     const rect = modalMemoryReveal.getBoundingClientRect();
     confetti.burst(rect.left + rect.width / 2, rect.top + 50, 80);
     confetti.burst(window.innerWidth * 0.4, window.innerHeight * 0.5, 50);
