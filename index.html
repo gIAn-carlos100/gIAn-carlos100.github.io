@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>¡Feliz Cumpleaños! 🎉 | Freddy Fazbear's Pizza Surprise</title>
+  <title>¡Feliz Cumpleaños Nan! 🎉 | Freddy Fazbear's Pizza Surprise</title>
   <meta name="description" content="Una sorpresa interactiva de cumpleaños muy especial con temática de Five Nights at Freddy's.">
 
   <!-- Google Fonts -->
@@ -28,6 +28,12 @@
 
   <!-- Background Music (The Living Tombstone - FNAF 1) -->
   <audio id="bgMusic" src="assets/audio/fnaf_tlt.mp3" preload="auto" loop></audio>
+  <!-- Freddy Fazbear Nose Honk Audio -->
+  <audio id="audioFreddyNose" src="assets/audio/fnaf-12-3-freddys-nose-sound.mp3" preload="auto"></audio>
+  <!-- Character Special Action Audios -->
+  <audio id="audioFreddyBeatbox" src="assets/audio/freddy-beatbox.mp3" preload="auto"></audio>
+  <audio id="audioBonnieRock" src="assets/audio/el-cumpleanero.mp3" preload="auto"></audio>
+  <audio id="audioFoxyPirate" src="assets/audio/foxy-whatsapp.ogg" preload="auto"></audio>
 
   <!-- MAIN APP CONTAINER -->
   <main class="app-container">
@@ -36,38 +42,42 @@
          PANTALLA 1: INICIO "¿QUIERES VER TU SORPRESA?"
          ========================================================== -->
     <section id="intro-screen" class="screen active" aria-label="Pantalla de Inicio">
-      <div class="intro-card">
-        <div class="fnaf-badge">
+      <div class="intro-card" id="introCard">
+        <div class="fnaf-badge" id="introBadge">
           <span>🍕 Fazbear Entertainment Inc.</span>
         </div>
 
-        <h1 class="intro-title">
+        <h1 class="intro-title" id="introTitle">
           ¿Quieres ver tu <span class="highlight">sorpresa?</span>
         </h1>
 
-        <p class="intro-subtitle">
+        <p class="intro-subtitle" id="introSubtitle">
           Tienes un pase VIP exclusivo para la fiesta de cumpleaños más divertida y animatrónica del año.
         </p>
 
-        <!-- Mini Avatars Preview -->
-        <div class="intro-mascots-preview">
-          <div class="mini-mascot-avatar freddy" title="Freddy Fazbear">
-            <img src="assets/images/freddy.jpg" alt="Freddy Plush">
-          </div>
-          <div class="mini-mascot-avatar bonnie" title="Bonnie the Bunny">
-            <img src="assets/images/bonnie.jpg" alt="Bonnie Plush">
-          </div>
-          <div class="mini-mascot-avatar foxy" title="Foxy the Pirate Fox">
-            <img src="assets/images/foxy.jpg" alt="Foxy Plush">
+        <!-- Step 1: Opciones de Inicio (Sí quiero verla / No mñn con falta) -->
+        <div id="introStep1" class="intro-step-content active">
+          <div class="intro-buttons-group">
+            <button id="btnStartExperience" class="btn-fazbear-main" type="button">
+              <span>¡SÍ, QUIERO VERLA! 🎁</span>
+            </button>
+            <button id="btnNoTomorrow" class="btn-fazbear-secondary" type="button">
+              <span>No, mñn con falta 🥱</span>
+            </button>
           </div>
         </div>
 
-        <!-- Start Button -->
-        <button id="btnStartExperience" class="btn-fazbear-main" type="button">
-          <span>¡SÍ, QUIERO VERLA! 🎁</span>
-        </button>
+        <!-- Step 2: "¡Nada de mñn!" con el Meme del Gatito -->
+        <div id="introStep2" class="intro-step-content" style="display: none;">
+          <div class="meme-image-container">
+            <img src="assets/images/nada_de_mnn.png" alt="Nada de mñn" class="meme-cat-img">
+          </div>
+          <button id="btnVeamoslo" class="btn-fazbear-main btn-veamoslo" type="button">
+            <span>¡VEÁMOSLO! 🚀</span>
+          </button>
+        </div>
 
-        <p class="intro-hint">🔊 Activa el sonido para la mejor experiencia</p>
+        <p class="intro-hint" id="introHint">🔊 Activa el sonido para la mejor experiencia</p>
       </div>
     </section>
 
@@ -99,8 +109,8 @@
         <header class="fnaf-birthday-header">
           <div class="stage-sign">
             <div class="stage-sign-decor">★ FAZBEAR BIRTHDAY STAGE ★</div>
-            <h1 class="main-birthday-title">¡FELIZ CUMPLEAÑOS! 🎂</h1>
-            <p class="main-birthday-subtitle">¡Bienvenida a tu fiesta especial! Los animatrónicos tienen regalos para ti</p>
+            <h1 class="main-birthday-title">¡FELIZ CUMPLE NAN! 🎂</h1>
+            <p class="main-birthday-subtitle">¡Bienvenida a tu fiesta, especial! Los animatrónicos tienen regalos para ti</p>
           </div>
         </header>
 
@@ -284,15 +294,38 @@
         </div>
       </div>
 
-      <!-- Zona Interactiva del Peluche -->
+      <!-- Zona Interactiva del Peluche: Preciados Recuerdos -->
       <div class="modal-interactive-zone">
-        <div class="interactive-zone-title" id="modalGiftTitle">🎁 Sorpresa Especial del Peluche</div>
-        <div class="modal-gift-box">
+        <div class="interactive-zone-title" id="modalGiftTitle">🎁 Preciados Recuerdos</div>
+        
+        <!-- Estado 1: Caja de Regalo Cerrada -->
+        <div class="modal-gift-box" id="modalGiftBoxClosed">
           <button class="gift-icon-btn" id="btnOpenGift" type="button" title="¡Haz clic para abrir tu regalo!">
             🎁
           </button>
           <div class="gift-status-text" id="modalGiftStatus">
             ¡Haz clic en la caja de regalo para abrir tu sorpresa!
+          </div>
+        </div>
+
+        <!-- Estado 2: Regalo Abierto con Foto y Dedicatoria de Recuerdos -->
+        <div class="modal-memory-reveal" id="modalMemoryReveal" style="display: none;">
+          <div class="memory-polaroid-frame" id="memoryPolaroidFrame">
+            <div class="polaroid-pin">📌</div>
+            <div class="polaroid-badge">📸 PRECIADOS RECUERDOS</div>
+            <div class="polaroid-img-wrapper" id="btnZoomMemoryWrapper" role="button" tabindex="0" title="Haz clic para ver la foto en pantalla completa">
+              <img id="modalMemoryImg" src="" alt="Foto de Preciados Recuerdos" class="memory-img">
+              <div class="polaroid-zoom-hint">🔍 Toca para ampliar</div>
+            </div>
+            <div class="memory-caption-box">
+              <h4 id="modalMemoryTitle" class="memory-title">Recuerdo Especial</h4>
+              <p id="modalMemoryCaption" class="memory-caption-text"></p>
+            </div>
+          </div>
+          <div class="memory-reveal-actions">
+            <button class="btn-reopen-gift" id="btnReopenGift" type="button">
+              <span>🎁 Volver a Empacar Regalo</span>
+            </button>
           </div>
         </div>
       </div>
@@ -321,6 +354,41 @@
       <div class="modal-footer-actions">
         <button class="btn-modal-action secondary" id="btnCancelCustomizer" type="button">Cancelar</button>
         <button class="btn-modal-action primary" id="btnSaveCustomizer" type="button">💾 Guardar Dedicatoria</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==========================================================
+       MODAL LIGHTBOX PARA VER FOTOS EN TAMAÑO COMPLETO
+       ========================================================== -->
+  <div class="lightbox-modal" id="lightboxModal" aria-hidden="true">
+    <div class="lightbox-card">
+      <button class="lightbox-close-btn" id="lightboxCloseBtn" aria-label="Cerrar imagen">&times;</button>
+      <div class="lightbox-img-container">
+        <img id="lightboxImg" src="" alt="Recuerdo Ampliado" class="lightbox-full-img">
+      </div>
+      <div class="lightbox-caption" id="lightboxCaption">
+        <span class="lightbox-badge">✨ PRECIADOS RECUERDOS ✨</span>
+        <p id="lightboxCaptionText"></p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==========================================================
+       SUPERPOSICIÓN DE CELEBRACIÓN ESTILO FNAF 6:00 AM
+       ========================================================== -->
+  <div class="fnaf-6am-overlay" id="fnaf6amOverlay" aria-hidden="true">
+    <div class="fnaf-6am-card">
+      <div class="fnaf-6am-cam-tag">
+        <span class="rec-dot"></span>
+        <span>SECURITY FEED // FAZBEAR CELEBRATION</span>
+      </div>
+      <div class="fnaf-6am-clock" id="fnaf6amClock">5:59 <span class="ampm">AM</span></div>
+      <div class="fnaf-6am-banner" id="fnaf6amBanner">
+        <h2>🎉 ¡6:00 AM! 🎉</h2>
+        <p>¡SOBREVIVISTE UN AÑO MÁS! ¡FELIZ CUMPLEAÑOS NAN!</p>
       </div>
     </div>
   </div>

@@ -250,35 +250,114 @@ body.light-flicker .bg-ambient {
   line-height: 1.6;
 }
 
-.intro-mascots-preview {
+.intro-buttons-group {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 25px;
+}
+
+.intro-step-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  animation: fadeInStep 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes fadeInStep {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Secondary Button: No, mñn con falta */
+.btn-fazbear-secondary {
+  background: linear-gradient(135deg, #d90429 0%, #7209b7 100%);
+  color: #ffffff;
+  font-family: var(--font-fnaf);
+  font-size: clamp(1rem, 2.2vw, 1.25rem);
+  font-weight: 800;
+  padding: 18px 36px;
+  border: 3px solid rgba(255, 255, 255, 0.9);
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 8px 30px rgba(217, 4, 41, 0.5), inset 0 2px 0 rgba(255, 255, 255, 0.4);
+  transition: var(--transition-smooth);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-fazbear-secondary:hover {
+  transform: translateY(-4px) scale(1.04);
+  box-shadow: 0 12px 40px rgba(217, 4, 41, 0.8), var(--glow-red);
+  background: linear-gradient(135deg, #ef233c 0%, #b5179e 100%);
+}
+
+.btn-fazbear-secondary:active {
+  transform: translateY(2px) scale(0.98);
+}
+
+/* Meme Image Container & Animation */
+.meme-image-container {
+  margin: 10px auto 25px auto;
   display: flex;
   justify-content: center;
-  gap: 15px;
-  margin-bottom: 35px;
+  align-items: center;
+  position: relative;
 }
 
-.mini-mascot-avatar {
-  width: 75px;
-  height: 75px;
-  border-radius: 50%;
-  border: 3px solid #fff;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
-  transition: var(--transition-smooth);
-}
-
-.mini-mascot-avatar:hover {
-  transform: scale(1.15) rotate(5deg);
-}
-
-.mini-mascot-avatar.freddy { border-color: var(--color-freddy-gold); box-shadow: var(--glow-gold); }
-.mini-mascot-avatar.bonnie { border-color: var(--color-bonnie-purple); box-shadow: var(--glow-purple); }
-.mini-mascot-avatar.foxy { border-color: var(--color-foxy-red); box-shadow: var(--glow-red); }
-
-.mini-mascot-avatar img {
+.meme-cat-img {
+  max-width: 250px;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  border-radius: var(--radius-md);
+  border: 3px solid var(--color-neon-pink);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8), var(--glow-pink);
+  animation: memePopIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.meme-cat-img:hover {
+  transform: scale(1.05) rotate(-2deg);
+  box-shadow: 0 12px 40px rgba(255, 0, 127, 0.9), var(--glow-pink);
+}
+
+@keyframes memePopIn {
+  0% { transform: scale(0.4) rotate(-12deg); opacity: 0; }
+  70% { transform: scale(1.08) rotate(3deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+.intro-card.meme-mode {
+  border-color: var(--color-neon-pink);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), var(--glow-pink);
+}
+
+/* Button Veamoslo */
+.btn-veamoslo {
+  background: linear-gradient(135deg, #00f0ff 0%, #0077b6 100%);
+  color: #000;
+  box-shadow: 0 8px 30px rgba(0, 240, 255, 0.6), inset 0 2px 0 rgba(255, 255, 255, 0.8);
+}
+
+.btn-veamoslo:hover {
+  background: linear-gradient(135deg, #70f6ff 0%, #0096c7 100%);
+  box-shadow: 0 12px 40px rgba(0, 240, 255, 0.9), var(--glow-cyan);
 }
 
 /* Giant CTA Button */
@@ -1245,6 +1324,366 @@ body.light-flicker .bg-ambient {
 }
 
 /* ====================================================================
+   PRECIADOS RECUERDOS / MEMORY POLAROID & REVEAL SYSTEM
+   ==================================================================== */
+.modal-memory-reveal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  animation: revealMemoryCard 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  width: 100%;
+}
+
+@keyframes revealMemoryCard {
+  0% {
+    opacity: 0;
+    transform: scale(0.7) rotate(-4deg);
+  }
+  60% {
+    transform: scale(1.04) rotate(1deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.memory-polaroid-frame {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 16px 16px 20px 16px;
+  max-width: 440px;
+  width: 100%;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(255, 183, 3, 0.3);
+  position: relative;
+  transform: rotate(-1deg);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  color: #1a1a2e;
+}
+
+.memory-polaroid-frame:hover {
+  transform: rotate(0deg) scale(1.02);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.9), 0 0 35px rgba(255, 183, 3, 0.5);
+}
+
+.polaroid-pin {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.5rem;
+  z-index: 5;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
+
+.polaroid-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #ff007f, #ffb703);
+  color: #fff;
+  font-family: var(--font-fnaf);
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.polaroid-img-wrapper {
+  width: 100%;
+  height: 280px;
+  background: #111;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  border: 2px solid #e0e0e0;
+}
+
+.polaroid-img-wrapper .memory-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+.polaroid-img-wrapper:hover .memory-img {
+  transform: scale(1.05);
+  filter: brightness(1.05);
+}
+
+.polaroid-zoom-hint {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  font-family: var(--font-party);
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 12px;
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+}
+
+.polaroid-img-wrapper:hover .polaroid-zoom-hint {
+  opacity: 1;
+}
+
+.memory-caption-box {
+  margin-top: 14px;
+  text-align: center;
+}
+
+.memory-title {
+  font-family: var(--font-fnaf);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #1a1a2e;
+  margin-bottom: 6px;
+}
+
+.memory-caption-text {
+  font-family: var(--font-party);
+  font-size: 0.95rem;
+  color: #444455;
+  line-height: 1.45;
+}
+
+.memory-reveal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.btn-reopen-gift {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px dashed rgba(255, 255, 255, 0.3);
+  color: #fff;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-family: var(--font-fnaf);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.btn-reopen-gift:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: #fff;
+  transform: scale(1.03);
+}
+
+/* ====================================================================
+   LIGHTBOX MODAL FOR HIGH-RES PHOTOS
+   ==================================================================== */
+.lightbox-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1500;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.lightbox-modal.active {
+  display: flex;
+  opacity: 1;
+}
+
+.lightbox-card {
+  max-width: 850px;
+  width: 100%;
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  background: #12121d;
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--color-freddy-gold);
+  box-shadow: 0 0 40px rgba(255, 183, 3, 0.4), 0 20px 60px rgba(0,0,0,0.9);
+  padding: 20px;
+  transform: scale(0.92);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.lightbox-modal.active .lightbox-card {
+  transform: scale(1);
+}
+
+.lightbox-close-btn {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  background: #ff0055;
+  color: #fff;
+  border: 2px solid #fff;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+  transition: var(--transition-smooth);
+  z-index: 10;
+}
+
+.lightbox-close-btn:hover {
+  transform: rotate(90deg) scale(1.15);
+  background: #ff2277;
+}
+
+.lightbox-img-container {
+  width: 100%;
+  max-height: 65vh;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #08080c;
+}
+
+.lightbox-full-img {
+  max-width: 100%;
+  max-height: 65vh;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+}
+
+.lightbox-caption {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.lightbox-badge {
+  display: inline-block;
+  font-family: var(--font-fnaf);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: var(--color-freddy-gold);
+  margin-bottom: 6px;
+}
+
+.lightbox-caption p {
+  font-size: 1rem;
+  color: #e0e0f0;
+  max-width: 600px;
+  line-height: 1.5;
+}
+
+/* ====================================================================
+   FNAF 6:00 AM DIGITAL VICTORY OVERLAY
+   ==================================================================== */
+.fnaf-6am-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  cursor: pointer;
+}
+
+.fnaf-6am-overlay.active {
+  display: flex;
+  opacity: 1;
+}
+
+.fnaf-6am-card {
+  text-align: center;
+  padding: 40px;
+  background: radial-gradient(circle at center, rgba(16, 24, 16, 0.95), rgba(5, 8, 5, 0.98));
+  border: 3px solid var(--color-neon-green);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 0 50px rgba(0, 255, 102, 0.5), inset 0 0 30px rgba(0, 255, 102, 0.2);
+  max-width: 600px;
+  width: 90%;
+  animation: clockPopup 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes clockPopup {
+  from { transform: scale(0.7); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.fnaf-6am-cam-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-retro);
+  font-size: 1.1rem;
+  color: var(--color-neon-green);
+  margin-bottom: 20px;
+  letter-spacing: 2px;
+}
+
+.fnaf-6am-clock {
+  font-family: var(--font-retro);
+  font-size: clamp(4.5rem, 12vw, 7rem);
+  font-weight: 900;
+  color: #00ff66;
+  text-shadow: 0 0 20px #00ff66, 0 0 40px #00ff66;
+  line-height: 1;
+  margin: 15px 0 25px 0;
+  letter-spacing: 3px;
+  animation: neonClockPulse 1.2s infinite alternate ease-in-out;
+}
+
+.fnaf-6am-clock .ampm {
+  font-size: 0.45em;
+  opacity: 0.9;
+}
+
+@keyframes neonClockPulse {
+  0% { transform: scale(1); filter: brightness(1); }
+  100% { transform: scale(1.05); filter: brightness(1.3); }
+}
+
+.fnaf-6am-banner h2 {
+  font-family: var(--font-fnaf);
+  font-size: clamp(1.4rem, 3.5vw, 2rem);
+  font-weight: 900;
+  color: #ffb703;
+  text-shadow: 0 0 15px rgba(255, 183, 3, 0.8);
+  margin-bottom: 10px;
+}
+
+.fnaf-6am-banner p {
+  font-size: 1.1rem;
+  color: #ffffff;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+/* ====================================================================
    FOOTER
    ==================================================================== */
 .fnaf-footer {
@@ -1268,42 +1707,359 @@ body.light-flicker .bg-ambient {
 }
 
 /* ====================================================================
-   RESPONSIVE ADJUSTMENTS
+   MOBILE & RESPONSIVE ADAPTATION (VERTICAL DISCOVERY FLOW)
    ==================================================================== */
 @media (max-width: 768px) {
+  html, body {
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
+
+  .fazbear-checker-border {
+    height: 8px;
+  }
+
   .app-container {
-    padding: 20px 14px;
+    padding: 16px 12px 60px 12px;
+    min-height: auto;
+    justify-content: flex-start;
   }
 
+  .screen {
+    justify-content: flex-start;
+    padding-top: 10px;
+  }
+
+  /* Intro Screen */
   .intro-card {
-    padding: 28px 20px;
+    padding: 26px 16px;
+    border-radius: var(--radius-md);
+    margin-top: 15px;
   }
 
+  .intro-buttons-group {
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+  }
+
+  .btn-fazbear-main,
+  .btn-fazbear-secondary {
+    width: 100%;
+    min-height: 52px;
+    padding: 14px 20px;
+    font-size: 1.05rem;
+  }
+
+  /* Main Birthday Surprise Hub - Vertical Journey */
+  .surprise-content {
+    gap: 22px;
+    width: 100%;
+  }
+
+  .fnaf-birthday-header {
+    width: 100%;
+  }
+
+  .stage-sign {
+    padding: 22px 14px 18px 14px;
+    border-radius: var(--radius-md);
+  }
+
+  .stage-sign-decor {
+    font-size: 0.7rem;
+    padding: 3px 12px;
+    top: -12px;
+  }
+
+  .main-birthday-title {
+    font-size: clamp(1.6rem, 7vw, 2.2rem);
+    margin: 8px 0;
+  }
+
+  .main-birthday-subtitle {
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  /* Music Player Mobile Layout */
   .fazbear-music-player {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
+    align-items: stretch;
+    gap: 14px;
+    padding: 14px 16px;
+    border-radius: var(--radius-md);
+  }
+
+  .player-left {
+    justify-content: flex-start;
+    gap: 12px;
+  }
+
+  .cassette-icon {
+    font-size: 1.6rem;
+  }
+
+  .track-title {
+    font-size: 0.88rem;
+  }
+
+  .track-artist {
+    font-size: 0.78rem;
   }
 
   .player-controls {
     width: 100%;
+    display: flex;
     justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 10px;
   }
 
+  .loop-mode-btn {
+    font-size: 0.7rem;
+    padding: 6px 10px;
+  }
+
+  .volume-slider {
+    width: 65px;
+  }
+
+  /* Interactive Cake Mobile */
   .interactive-cake-card {
     flex-direction: column;
     text-align: center;
-    gap: 15px;
+    gap: 14px;
+    padding: 18px 14px;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .cake-info h3 {
+    font-size: 1.05rem;
+  }
+
+  .cake-info p {
+    font-size: 0.82rem;
+  }
+
+  .cake-candles-container {
+    gap: 18px;
+  }
+
+  .candle-stick {
+    height: 36px;
+    width: 12px;
+  }
+
+  .flame {
+    width: 16px;
+    height: 22px;
+  }
+
+  /* Action Buttons 2-Column Grid on Mobile */
+  .easter-actions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    width: 100%;
+  }
+
+  .btn-fun-action {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 8px;
+    font-size: 0.78rem;
+    min-height: 44px;
+  }
+
+  /* Plushies Section: Vertical 1-Column Stack for Sequential Discovery */
+  .plushies-section {
+    width: 100%;
+    margin-top: 5px;
+  }
+
+  .section-title {
+    font-size: 1.35rem;
+    line-height: 1.3;
+  }
+
+  .section-subtitle {
+    font-size: 0.88rem;
+  }
+
+  .plushies-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 10px 0;
+  }
+
+  .plushie-card {
+    padding: 22px 18px;
+    border-radius: var(--radius-lg);
+  }
+
+  .plushie-img-wrap {
+    width: 180px;
+    height: 180px;
+    margin-bottom: 15px;
+  }
+
+  .plushie-name {
+    font-size: 1.4rem;
+  }
+
+  .plushie-desc {
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+  }
+
+  .btn-select-plushie {
+    width: 100%;
+    min-height: 46px;
+    font-size: 0.88rem;
+  }
+
+  /* Modal on Mobile */
+  .modal-backdrop {
+    padding: 10px;
+    align-items: flex-start;
+    overflow-y: auto;
+  }
+
+  .plushie-modal-card {
+    padding: 22px 16px 25px 16px;
+    max-height: 94vh;
+    border-radius: 16px;
+    margin: auto 0;
   }
 
   .modal-header-hero {
     flex-direction: column;
     text-align: center;
-    gap: 15px;
+    gap: 12px;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
   }
 
-  .plushie-img-wrap {
-    width: 190px;
-    height: 190px;
+  .modal-plush-avatar {
+    width: 85px;
+    height: 85px;
+  }
+
+  .modal-header-texts h2 {
+    font-size: 1.4rem;
+  }
+
+  .modal-header-texts .modal-char-tag {
+    font-size: 0.95rem;
+  }
+
+  .birthday-dedication-box {
+    padding: 18px 14px;
+    margin-bottom: 18px;
+  }
+
+  .dedication-message-text {
+    font-size: 0.98rem;
+    line-height: 1.6;
+  }
+
+  .modal-interactive-zone {
+    padding: 14px 10px;
+  }
+
+  .gift-icon-btn {
+    font-size: 3rem;
+  }
+
+  .gift-status-text {
+    font-size: 0.92rem;
+  }
+
+  /* Polaroid Frame Mobile */
+  .memory-polaroid-frame {
+    padding: 12px 12px 16px 12px;
+    max-width: 100%;
+    transform: none;
+  }
+
+  .polaroid-img-wrapper {
+    height: 230px;
+  }
+
+  .memory-title {
+    font-size: 1.05rem;
+  }
+
+  .memory-caption-text {
+    font-size: 0.88rem;
+  }
+
+  .modal-footer-actions {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .btn-modal-action {
+    width: 100%;
+    justify-content: center;
+    min-height: 44px;
+    font-size: 0.82rem;
+  }
+
+  /* 6 AM Celebration Mobile */
+  .fnaf-6am-card {
+    padding: 25px 15px;
+    width: 95%;
+  }
+
+  .fnaf-6am-clock {
+    font-size: clamp(3.2rem, 15vw, 5rem);
+    margin: 10px 0 18px 0;
+  }
+
+  .fnaf-6am-banner h2 {
+    font-size: 1.3rem;
+  }
+
+  .fnaf-6am-banner p {
+    font-size: 0.92rem;
+  }
+
+  /* Lightbox Mobile */
+  .lightbox-modal {
+    padding: 10px;
+  }
+
+  .lightbox-card {
+    padding: 12px;
+  }
+
+  .lightbox-close-btn {
+    top: -10px;
+    right: -10px;
+    width: 36px;
+    height: 36px;
+    font-size: 1.2rem;
   }
 }
+
+@media (max-width: 480px) {
+  .plushie-img-wrap {
+    width: 160px;
+    height: 160px;
+  }
+
+  .polaroid-img-wrapper {
+    height: 200px;
+  }
+}
+
